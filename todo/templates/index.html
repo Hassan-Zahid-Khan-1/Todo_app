@@ -1,0 +1,86 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>Document</title>
+    {% tailwind_css %}
+</head>
+<body class="max-w-[1350px] mx-auto">
+   <div class="">
+    <h1 class="border-2 border-gray-200 text-center py-8 font-bold text-4xl rounded-lg">TODO LISTT</h1>
+   </div>
+
+   {% comment %} form starts here {% endcomment %}
+   <div>
+    <form action="#" method="POST" class="space-y-4">
+        {% csrf_token %}
+        <!-- Title Field -->
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value="{{values.title}}"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholder="Enter the title"
+            required
+          />
+        </div>
+        <!-- Description Field -->
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholder="Enter the description"
+            required
+            value="{{values.description}}"
+          ></textarea>
+        </div>
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Save
+        </button>
+      </form>
+   </div>
+   {% comment %} form end here {% endcomment %}
+
+   <div class="mt-8">
+    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="py-2 px-4 text-left text-gray-600 font-medium">Title</th>
+            <th class="py-2 px-4 text-left text-gray-600 font-medium">Description</th>
+            <th class="py-2 px-4 text-left text-gray-600 font-medium">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for value in values %}
+          <tr class="border-b">
+            <td class="py-2 px-4">{{value.title}}</td>
+            <td class="py-2 px-4">{{value.description}}</td>
+            <td class="py-2 px-4">
+             <a href="/delete_todo/{{value.id}}"> <button class="bg-red-900 text-white py-1 px-5 rounded-md mb-1">
+                Delete
+              </button></a>
+              <a href="/update_todo/{{value.id}}">
+              <button class="bg-green-900 text-white py-1 px-4 rounded-md">
+                Update
+              </button>
+            </a>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+   </div>
+</body>
+</html>
